@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Peach xmlns="http://peachfuzzer.com/2012/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://peachfuzzer.com/2012/Peach /peach/peach.xsd">
+
+	<!-- TODO: Create data model -->
+	<DataModel name="TheDataModel">
+		<Number name="Magic" size="8" valueType="hex" value="0x4D"/>
+		<Number name="Len" size="16" endian="little">
+                  <Relation type="size" of="Data" />
+                </Number>
+		<Blob name="Data" value="AAA"/>
+	</DataModel>
+
+	<!-- TODO: Create state model -->
+	<StateModel name="TheState" initialState="Initial">
+		<State name="Initial">
+			
+			<Action type="output">
+				<DataModel ref="TheDataModel"/>
+			</Action>
+			<Action type="call" method="FuzzMe" publisher="Peach.Agent" />
+
+		</State>
+
+	</StateModel>
+
+	<!-- TODO: Configure Agent -->
+	<Agent name="TheAgent" >
+		<Monitor class="LinuxCrashMonitor" />
+		<Monitor class="Process" >
+			<Param name="Executable" value="./a.out" />
+			<Param name="StartOnCall" value="FuzzMe"/>
+			<Param name="Arguments" value="fuzzed.bin"/>
+		</Monitor>
+	</Agent>
+
+	<Test name="Default">
+		<Agent ref="TheAgent"/>
+		<StateModel ref="TheState"/>
+
+		<!-- TODO: Configure a publisher -->
+		<Publisher class="File">
+			<Param name="FileName" value="fuzzed.bin"/>
+		</Publisher>
+
+		<!-- OPTIONAL: Configure a strategy -->
+		<!--<Strategy class="Random"/>-->
+		
+		<Logger class="File">
+			<Param name="Path" value="logs"/>
+		</Logger>
+	</Test>
+
+</Peach>
+<!-- end -->
