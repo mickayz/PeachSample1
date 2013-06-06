@@ -10,11 +10,11 @@ void usage(){
   printf("Securely designed to not print more data than exists :)\n\n");
   printf("FILE STRUCTURE:\n\n");
   printf("-------------------------------\n");
-  printf("|----0B---|----1B---|----2B---|\n");
+  printf("|----0B-----|--1B----|---2B---|\n");
   printf("-------------------------------\n");
-  printf("|MAGIC 'M'|   Length(of Data)  |\n");
+  printf("|Magic 0x4D | Length(of Data) |\n");
   printf("-------------------------------\n");
-  printf("|        DATA (ascii)          |\n");
+  printf("|        DATA (ascii)         |\n");
   printf("|            ....             |\n");
   printf("-------------------------------\n");
 
