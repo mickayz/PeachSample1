@@ -46,6 +46,7 @@ main(int argc, const char* argv[])
 	fileLen=ftell(file);
 	fseek(file, 0, SEEK_SET);
 
+        // File must be a minimum of 3 bytes to satisfy header
 	if (fileLen<3)
 	{
 		fprintf(stderr, "Invalid File Format!\n");
@@ -53,7 +54,7 @@ main(int argc, const char* argv[])
 		exit(1);
 	}
 
-
+        // Temporary buffer for file contents
 	tempbuf=(char *)malloc(fileLen);
 	if (!tempbuf)
 	{
@@ -68,6 +69,7 @@ main(int argc, const char* argv[])
         magic = (char)tempbuf[0];
         memcpy(&maxlen, &(tempbuf[1]), 2);
 
+        // Magic Number must be set to 0x4D
 	if (magic!='M')
 	{
 		fprintf(stderr, "Invalid magic number!\n");
@@ -75,7 +77,8 @@ main(int argc, const char* argv[])
 	}
 
 
-
+        // Data buffer must have room for the size of data,
+        // plus one extra byte for the trailing null.
 	buffer=(char *)malloc(fileLen-2);
 	if (!buffer)
 	{
