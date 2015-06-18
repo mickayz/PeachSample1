@@ -84,8 +84,8 @@ void usage(){
 
 int main(int argc, const char* argv[])
 {
-	FILE *file;
-	char *buffer;
+  FILE *file;
+  char *buffer;
   char *fileBuffer;
   long fileLen;
   
@@ -100,34 +100,34 @@ int main(int argc, const char* argv[])
     usage();
   }
 
-	file = fopen(argv[1], "rb");
-	if (!file)
-	{
-		fprintf(stderr, "can't open file %s", argv[1]);
-		exit(1);
-	}
-	fseek(file, 0, SEEK_END);
-	fileLen=ftell(file);
-	fseek(file, 0, SEEK_SET);
+  file = fopen(argv[1], "rb");
+  if (!file)
+  {
+    fprintf(stderr, "can't open file %s", argv[1]);
+    exit(1);
+  }
+  fseek(file, 0, SEEK_END);
+  fileLen=ftell(file);
+  fseek(file, 0, SEEK_SET);
 
   // File must be a minimum of 8 bytes to satisfy header and footer
-	if (fileLen<8)
-	{
-		fprintf(stderr, "Invalid File Format!\n");
+  if (fileLen<8)
+  {
+    fprintf(stderr, "Invalid File Format!\n");
     fclose(file);
-		exit(1);
-	}
+    exit(1);
+  }
 
   // Temporary buffer for file contents
-	fileBuffer=(char *)malloc(fileLen);
-	if (!fileBuffer)
-	{
-		fprintf(stderr, "Memory error!\n");
+  fileBuffer=(char *)malloc(fileLen);
+  if (!fileBuffer)
+  {
+    fprintf(stderr, "Memory error!\n");
     fclose(file);
-		exit(1);
-	}
-	fread(fileBuffer, fileLen, 1, file);
-	fclose(file);
+    exit(1);
+  }
+  fread(fileBuffer, fileLen, 1, file);
+  fclose(file);
 
 
   memcpy(&magic, &(fileBuffer[0]), 1);
@@ -137,11 +137,11 @@ int main(int argc, const char* argv[])
 
 
   // Magic Number must be set to 0x4D
-	if (magic!='M')
-	{
-		fprintf(stderr, "Invalid magic number!\n");
-		exit(1);
-	}
+  if (magic!='M')
+  {
+    fprintf(stderr, "Invalid magic number!\n");
+    exit(1);
+  }
 
   // if length defined is greater than
   // the maximum, lower it to the maximum
@@ -167,12 +167,12 @@ int main(int argc, const char* argv[])
 
   // Data buffer must have room for the size of data,
   // plus one extra byte for the trailing null.
-	buffer=(char *)malloc(fileLen-8+1);
-	if (!buffer)
-	{
-		fprintf(stderr, "Memory error!\n");
-		exit(1);
-	}
+  buffer=(char *)malloc(fileLen-8+1);
+  if (!buffer)
+  {
+    fprintf(stderr, "Memory error!\n");
+    exit(1);
+  }
 
   memcpy(buffer, &(fileBuffer[4]), dataLen);
   buffer[dataLen] = '\0';
@@ -190,9 +190,9 @@ int main(int argc, const char* argv[])
     p = p+1;
   }
 
-	printf ("Original Data: %s \n", buffer);
+  printf ("Original Data: %s \n", buffer);
 
-	free(buffer);
+  free(buffer);
   free(fileBuffer);
 
   return 0;
