@@ -6,9 +6,15 @@
 	<DataModel name="TheDataModel">
 		<Number name="Magic" size="8" valueType="hex" value="0x4D"/>
 		<Number name="Len" size="16" endian="little">
-                  <Relation type="size" of="Data" />
-                </Number>
+            <Relation type="size" of="Data" />
+         </Number>
+         <Number name="Version" size="8" value="1" />
 		<Blob name="Data" value="AAA"/>
+		<Number name="CRC" size="32" endian="little">
+			<Fixup class="CRC32Fixup">
+				<Param name="ref" value="TheDataModel"/>
+			</Fixup>
+		</Number>
 	</DataModel>
 
 	<!-- TODO: Create state model -->
@@ -28,7 +34,7 @@
 	<Agent name="TheAgent" >
 		<Monitor class="LinuxCrashMonitor" />
 		<Monitor class="Process" >
-			<Param name="Executable" value="./a.out" />
+			<Param name="Executable" value="./SecureDecode" />
 			<Param name="StartOnCall" value="FuzzMe"/>
 			<Param name="Arguments" value="fuzzed.bin"/>
 		</Monitor>
