@@ -2,17 +2,20 @@
 <Peach xmlns="http://peachfuzzer.com/2012/Peach" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://peachfuzzer.com/2012/Peach /peach/peach.xsd">
 
+	<!-- Seed 44786 -->
 	<!-- TODO: Create data model -->
 	<DataModel name="TheDataModel">
-		<Number name="Magic" size="8" valueType="hex" value="0x4D"/>
-		<Number name="Len" size="16" endian="little">
-            <Relation type="size" of="Data" />
-         </Number>
-         <Number name="Version" size="8" value="1" />
-		<Blob name="Data" value="AAA"/>
+		<Block name="CRCME">
+			<Number name="Magic" size="8" valueType="hex" value="0x4D"/>
+			<Number name="Len" size="16" endian="little">
+            			<Relation type="size" of="Data" />
+         		</Number>
+         		<Number name="Version" size="8" value="1" />
+			<Blob name="Data" value="AAA"/>
+		</Block>
 		<Number name="CRC" size="32" endian="little">
-			<Fixup class="CRC32Fixup">
-				<Param name="ref" value="TheDataModel"/>
+			<Fixup class="Crc32Fixup">
+				<Param name="ref" value="CRCME"/>
 			</Fixup>
 		</Number>
 	</DataModel>
@@ -23,7 +26,9 @@
 			
 			<Action type="output">
 				<DataModel ref="TheDataModel"/>
+				<Data fileName="sample1.bin" />
 			</Action>
+			<Action type="close" />
 			<Action type="call" method="FuzzMe" publisher="Peach.Agent" />
 
 		</State>
@@ -50,7 +55,7 @@
 		</Publisher>
 
 		<!-- OPTIONAL: Configure a strategy -->
-		<!--<Strategy class="Random"/>-->
+		<Strategy class="Random"/>
 		
 		<Logger class="File">
 			<Param name="Path" value="logs"/>
