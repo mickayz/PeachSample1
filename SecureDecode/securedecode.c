@@ -65,7 +65,7 @@ uint32_t crc32(const void *buf, size_t size)
 void usage(){
   printf("Usage:\n");
   printf("./SecureDecode FILENAME\n\n");
-  printf("Prints ascii data that has been caesar cipher shifted\n");
+  printf("Prints ascii data that has been caesar cipher shifted (ish)\n");
   printf("and stored in a super secure file format\n\n");
   printf("FILE STRUCTURE:\n\n");
   printf("---------------------------------------------\n");
@@ -183,7 +183,7 @@ int main(int argc, const char* argv[])
   p = buffer;
   while (*p)
   {
-    if (*p >=32 || *p<126)
+    if (*p >=32 && *p<126)
       *p = *p+1;
     else
       *p = '\x20';
